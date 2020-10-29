@@ -19,8 +19,8 @@ public:
 	Mutex();
 	~Mutex();
 
-	bool	Lock();
-	void	Unlock();
+	bool	lock();
+	void	unlock();
 
 protected:
 #if defined(WIN32) || defined(_WIN32)
@@ -28,6 +28,22 @@ protected:
 #else
 	pthread_mutex_t _mutex
 #endif
+};
+
+class AutoMutex
+{
+public:
+	AutoMutex(Mutex& mutex) {
+		_mutex = &mutex;
+		_mutex->lock();
+	}
+
+	~AutoMutex() {
+		_mutex->unlock();
+	}
+
+private:
+	Mutex*	_mutex;
 };
 
 }

@@ -42,7 +42,7 @@ int QuickCreateFile(wstring filepath, int size)
 	return 0;
 }
 */
-string GenerateGUID()
+static string GenerateGUID()
 {
 	string result;
     char buf[64] = {0};
@@ -106,7 +106,7 @@ Mutex::~Mutex()
 	}
 }
 
-bool		Mutex::Lock()
+bool		Mutex::lock()
 {
 	if (_mutex) {
 		return WAIT_OBJECT_0 == ::WaitForSingleObject(_mutex, INFINITE);
@@ -115,7 +115,7 @@ bool		Mutex::Lock()
 	}
 }
 
-void		Mutex::Unlock()
+void		Mutex::unlock()
 {
 	if (_mutex) {
 		::ReleaseMutex(_mutex);
@@ -132,12 +132,12 @@ Mutex::~Mutex()
 	pthread_mutex_destroy(&_mutex);
 }
 
-bool		Mutex::Lock()
+bool		Mutex::lock()
 {
 	pthread_mutex_lock(&_mutex);
 }
 
-void		Mutex::Unlock()
+void		Mutex::unlock()
 {
 	pthread_mutex_unlock(&_mutex);
 }
